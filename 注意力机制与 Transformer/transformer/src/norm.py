@@ -9,21 +9,13 @@ class LayerNorm(nn.Module):
     def __init__(self, dim, eps=1e-6):
         super().__init__()
         self.eps = eps
-        # 可学习参数 gamma (缩放) 和 beta (偏移)
-        self.gamma = nn.Parameter(torch.ones(dim))
-        self.beta = nn.Parameter(torch.zeros(dim))
-
-    def forward(self, x):
-        # x: [batch_size, seq_len, dim]
-        # 在最后一个维度 (dim) 上计算均值和方差
-        mean = x.mean(-1, keepdim=True)
-        var = x.var(-1, keepdim=True, unbiased=False)
-        
-        # 归一化
-        x_norm = (x - mean) / torch.sqrt(var + self.eps)
-        
-        # 缩放和平移
-        return self.gamma * x_norm + self.beta
+        self.gamma=nn.Parameter(torch.ones(dim))
+        self.beta=nn.Parameter(torch.zeros(dim))
+    def forward(self,x):
+        mean=x.mean(-1,keepdim=True)
+        var=x.var(-1,keepdim=True)
+        x_norm=(x-mean)/torch.sqrt(var+self.eps)
+        return self.gamma*x_norm+self.beta
 
 if __name__ == "__main__":
     # 准备参数
