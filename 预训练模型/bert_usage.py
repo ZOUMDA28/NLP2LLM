@@ -20,7 +20,7 @@ print(model)
 inputs = tokenizer(texts, padding=True, truncation=True, return_tensors="pt").to(device)
 
 # 打印 Tokenizer 的完整输出，以理解其内部结构
-print("--- Tokenizer 输出 ---")
+print("\n--- Tokenizer 输出 ---")
 for key, value in inputs.items():
     print(f"{key}: \n{value}\n")
 
